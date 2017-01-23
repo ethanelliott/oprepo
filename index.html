@@ -1,0 +1,48 @@
+<html>
+<head>
+<style>
+  *{
+    padding:0;
+    margin:0;
+  }
+</style>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/vs.min.css">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+    <p>Select a File to Load:</p>
+    <input id="inputFileToLoad" type="file" onchange="loadImageFileAsURL();" />
+    <input id="fileContents" type="hidden" value="" />
+    <pre><code id="fileText"></code></pre>
+
+<script type="text/javascript">
+function decodeURI(uri) {
+  console.log(uri);
+  var d = window.atob(uri.split(",")[1]);
+  return d;
+}
+
+function loadImageFileAsURL()
+{
+    var filesSelected = document.getElementById("inputFileToLoad").files;
+    if (filesSelected.length > 0)
+    {
+        var fileToLoad = filesSelected[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function(fileLoadedEvent)
+        {
+            var fileContents = document.getElementById("fileContents");
+            var fileText = document.getElementById("fileText");
+            fileContents.value = fileLoadedEvent.target.result;
+            fileText.innerHTML = decodeURI(fileLoadedEvent.target.result);
+            hljs.highlightBlock(fileText);
+        };
+        fileReader.readAsDataURL(fileToLoad);
+    }
+}
+</script>
+
+</body>
+</html>

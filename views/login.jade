@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  #LoginWrapper
+    #LoginBlock
+      img(src="/images/logo.png")
+      form(id="login-form", action="/ulogin", method="POST",autocomplete="off")
+        input(type="text", placeholder="username", name="oprusername")
+        input(type="password", placeholder="password",name="oprpassword")
+        input(type="submit", value="Login")

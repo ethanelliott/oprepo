@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  #contentWrapper
+    #content
+      #header
+        #header-column
+          a(href="/")
+            img(src="/images/logo.png")
+        #header-column
+          a#button(href="/r/#{title}") Back
+      h1 OPR#{title} History
+      table(id="list-table")
+        tr
+          th(style="text-align:left;padding-left:5%;") Date/Time
+          th(style="width:60%;text-align:left;padding-left:5%;") Message
+          th(style="text-align:left") User
+        each r, i in historyList
+          tr
+            td 
+              a(href="/r/#{title}/#{r._id}") #{r.date.d} @ #{r.date.t}
+            td #{r.message}
+            td #{r.user}

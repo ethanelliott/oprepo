@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h1 #{title}
+  form(id="upload-form", action="/uploadfile", method="POST",autocomplete="off")
+    input(id="inputFileToLoad", type="file", onchange="loadFileAsURL();", multiple)
+    input(id="fileContents",name="data", type="hidden", value="")
+    input(id="fileName",name="name", type="hidden", value="")
+    input(id="upfilesub",type="submit", value="Upload!", style="display:none;")
+  script.
+    function decodeURI(uri) {
+      var d = window.atob(uri.split(",")[1]);
+      return d;
+    }
+    
+    function loadFileAsURL()
+    {
+        var filesSelected = document.getElementById("inputFileToLoad").files;
+        var fullPath = document.getElementById('inputFileToLoad').value;
+        if (fullPath) {
+            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+            var filename = fullPath.substring(startIndex);
+            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                filename = filename.substring(1);
+            }
+            document.getElementById("fileName").value = filename;
+        }
+        if (filesSelected.length > 0)
+        {
+            var fileToLoad = filesSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(fileLoadedEvent)
+            {
+                var fileContents = document.getElementById("fileContents");
+                fileContents.value = fileLoadedEvent.target.result.split(",")[1];
+                document.getElementById("upfilesub").style.display = "block";
+            };
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    }

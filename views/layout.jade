@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/vs.min.css")
+    script(src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js")
+    script.
+      hljs.initHighlightingOnLoad();
+  body
+    block content

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  #contentWrapper
+    #content
+      #header
+        #header-column
+          a(href="/")
+            img(src="/images/logo.png")
+        #header-column
+            a#button(href="/logout") Logout
+      table(id="list-table")
+        tr
+          th Year
+        each y, i in years
+          tr
+            td 
+              a(href="/r/#{y}") 
+                #tableLink #{y}

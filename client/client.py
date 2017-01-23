@@ -33,7 +33,7 @@ def main():
         'oprdate':n.strftime("%m/%d/%Y %H:%M:%S"),
         'oprmessage': rm
     }
-    print r.post(loginURL, data=loginDetails).text
+    r.post(loginURL, data=loginDetails)
     resp = r.post(createNewRepoURL, data=newPostDetails).text
     j = json.loads(resp)
     if j['response'] == "OK":

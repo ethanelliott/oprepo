@@ -1,30 +1,33 @@
 extends layout
 
 block content
-  #contentWrapper
-    #content
-      #header
-        #header-column
-          a(href="/")
-            img(src="/images/logo.png")
-        #header-column
-          h1(style="font-size:24px;font-weight:200;line-height:3em;") 
-            a(href="/r/#{y}") OPR#{y}
-            span &nbsp;→&nbsp;
-            a(href="/r/#{y}/#{u}") #{u}
-            span &nbsp;→&nbsp;
-            a(href="/r/#{y}/#{u}/#{f}") #{title}
-      pre
-        code(id="fileText")
-      script.
-        function eHTML(s) { 
-        return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
-        function decodeURI() {
-          var uri = "#{filedata.data}";
-          var d = eHTML(window.atob(uri));
-          var fileText = document.getElementById("fileText");
-          fileText.innerHTML = d;
-          hljs.highlightBlock(fileText);
-        }
-        decodeURI();
+    #contentWrapper
+        #content
+            #header
+                #header-column
+                    a(href="/")
+                        img(src="/images/logo.png")
+                #header-column
+                    h1(style="font-size:24px;font-weight:200;line-height:3em;") 
+                        a(href="/r/#{y}") OPR#{y}
+                        span &nbsp;→&nbsp;
+                        a(href="/r/#{y}/#{u}") #{u}
+                        span &nbsp;→&nbsp;
+                        a(href="/r/#{y}/#{u}/#{f}") #{title}
+            pre
+                code(id="fileText")
+            script.
+                function eHTML(s) { 
+                return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                }
+                function decodeURI() {
+                    var uri = "#{filedata.data}";
+                    var d = eHTML(window.atob(uri));
+                    var fileText = document.getElementById("fileText");
+                    fileText.innerHTML = d;
+                    hljs.highlightBlock(fileText);
+                }
+                decodeURI();
+
+    #footer
+        span &copy; Copyright 2017 Team 2056 

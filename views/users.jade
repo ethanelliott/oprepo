@@ -1,0 +1,58 @@
+extends layout
+
+block content
+    #contentWrapper
+        #content
+            #header
+                #header-column
+                    a(href="/")
+                        img(src="/images/logo.png")
+                #header-column
+                    a#button(href="/logout")
+                        span Logout&nbsp;&nbsp;
+                        i(class="fa fa-sign-out" aria-hidden="true")
+            form(autocomplete="off",id="addnewuser",action="/add/new/user", method="POST")
+                input(type="text",placeholder="username",name="username")
+                input(type="text",placeholder="password",name="password")
+                select(name="ut")
+                  option(value="0") User
+                  option(value="1") Super-user
+                  option(value="2") Admin
+                  
+                input(type="submit", value="Add new user")
+            table(id="list-table")
+                tr
+                    th
+                        i(class="fa fa-address-card-o" aria-hidden="true")
+                    th 
+                        i(class="fa fa-user-circle-o" aria-hidden="true")
+                        span &nbsp;&nbsp;&nbsp;Username
+                    th 
+                        i(class="fa fa-pencil-square-o" aria-hidden="true")
+                    th 
+                        i(class="fa fa-trash-o" aria-hidden="true")
+                each u, i in users
+                    tr
+                        td
+                            if u.ut === 0
+                                i(class="fa fa-star-o" aria-hidden="true")
+                            else
+                                if u.ut === 1
+                                    i(class="fa fa-star-half-o" aria-hidden="true")
+                                else
+                                    if u.ut === 2
+                                        i(class="fa fa-star" aria-hidden="true")
+                        td 
+                            if u.npc
+                                i(class="fa fa-unlock-alt" aria-hidden="true")
+                                span &nbsp;&nbsp;&nbsp;
+                            span #{u.username}
+
+                        td
+                            a(href="/edituser/#{u._id}")
+                                i(class="fa fa-pencil" aria-hidden="true")
+                        td
+                            a(href="/removeuser/#{u._id}")
+                                i(class="fa fa-trash-o" aria-hidden="true")
+    #footer
+        span &copy; Copyright 2017 Team 2056 

@@ -1,19 +1,30 @@
 extends layout
 
 block content
-  #contentWrapper
-    #content
-      #header
-        #header-column
-          a(href="/")
-            img(src="/images/logo.png")
-        #header-column
-            a#button(href="/logout") Logout
-      table(id="list-table")
-        tr
-          th Year
-        each y, i in years
-          tr
-            td 
-              a(href="/r/#{y}") 
-                #tableLink #{y}
+    #contentWrapper
+        #content
+            #header
+                #header-column
+                    a(href="/")
+                        img(src="/images/logo.png")
+                #header-column
+                    a#button(href="/logout")
+                        span Logout&nbsp;&nbsp;
+                        i(class="fa fa-sign-out" aria-hidden="true")
+                    a#button(href="/download/client.exe" download)
+                        span Client&nbsp;&nbsp;
+                        i(class="fa fa-download" aria-hidden="true")
+                    if a
+                        a#button(href="/users")
+                            span Users&nbsp;&nbsp;
+                            i(class="fa fa-user-circle-o" aria-hidden="true")
+            table(id="list-table")
+                tr
+                    th Year
+                each y, i in years
+                    tr
+                        td 
+                            a(href="/r/#{y}") 
+                                #tableLink #{y}
+    #footer
+        span &copy; Copyright 2017 Team 2056 

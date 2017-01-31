@@ -1,11 +1,62 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel="stylesheet", href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/vs.min.css")
-    script(src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js")
-    script.
-      hljs.initHighlightingOnLoad();
-  body
-    block content
+    head
+        title OP Repo | #{title}
+        meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
+        link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/vs.min.css")
+        script(src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+        script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js")
+        script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js')
+        script.
+            hljs.initHighlightingOnLoad();
+            $(document).ready(function(){
+            	$.validate({
+                lang: 'en',
+              	modules : 'sanitize, security',
+                errorMessagePosition : 'top',
+              	onModulesLoaded : function() {
+              	var optionalConfig = {
+              	  fontSize: '12pt',
+              	  padding: '4px',
+              	  bad : 'Very bad',
+              	  weak : 'Weak',
+              	  good : 'Good',
+              	  strong : 'Strong'
+              	};
+              	$('input[name="password_confirmation"]').displayPasswordStrength(optionalConfig);
+              	}
+              });
+            });
+            function quickSnack(mess, to, callback) {
+                var s = document.getElementById("snackbar")
+                s.className = "show";
+                $("#snackbar").text(mess);
+                if (to)
+                {
+                    setTimeout(function(){ 
+                        s.className = s.className.replace("show", ""); 
+                        if (callback)
+                        {
+                            callback();
+                        }
+                    }, to);
+                }
+                else 
+                {
+                    setTimeout(function(){ 
+                        s.className = s.className.replace("show", ""); 
+                        if (callback)
+                        {
+                            callback();
+                        }
+                    }, 3000);
+                }
+
+            }
+
+    body
+        #snack-wrap
+            #snackbar 
+        block content

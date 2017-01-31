@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    #LoginWrapper
+        #LoginBlock
+            img(src="/images/logo.png")
+            h1(style="color:#ffffff") #{title}
+            style.
+              .form-error {
+                color:#ffffff;
+                background-color:rgba(154, 51, 51, 0.5);
+                border:1px solid #FF0000;
+                margin-top:2vh;
+                padding:2vh;
+              }
+              .form-error > strong {
+                font-size:2vh;
+                line-height:5vh;
+              }
+              .form-error > ul {
+                list-style-type: none;
+              }
+            #error-dialog(style="color:#ffffff;display:none;")
+            form(id="login-form", action="/changepassword", method="POST",autocomplete="off")
+                input(type="hidden", value="#{idu}", name="uid")
+                input(type="password", placeholder="new password", name="password_confirmation",data-validation="strength length required",data-validation-strength="2",data-validation-length="min8",data-validation-error-msg-container="#error-dialog")
+                input(type="password", placeholder="confirm password",name="password",data-validation="confirmation required",data-validation-error-msg-container="#error-dialog")
+                input(type="submit", value="Update")

@@ -1,33 +1,44 @@
 extends layout
 
 block content
-  #contentWrapper
-    #content
-      #header
-        #header-column
-          a(href="/")
-            img(src="/images/logo.png")
-        #header-column
-          a#button(href="#{downloadZip}", download="OPR#{title}.zip") Download
-          a#button(href="/r/#{title}/history") History
-      h1 OPR#{title}
-      if days === 0
-        h2 #{date} @ #{time} (Today)
-      else
-        h2 #{date} @ #{time} (#{days} days ago)
-      h2(style="font-style:italic;") #{recentUpload.message}
-      table(id="list-table")
-        tr
-          th(style="width:80%;text-align:left;padding-left:5%;") Name
-          th Download
-        each f, i in recentUpload.files
-          tr
-            td.file(style="padding-left:2em")
-              a(href="/r/#{title}/#{recentUpload._id}/#{f.id}") #{f.name}
-            td.file(style="text-align:center")
-              a(download="#{f.name}", href="data:application/octet-stream;base64,#{f.data}") Here
-              
-
-    
-      
-    
+    #contentWrapper
+        #content
+            #header
+                #header-column
+                    a(href="/")
+                        img(src="/images/logo.png")
+                #header-column
+                    a#button(href="#{downloadZip}", download="OPR#{title}.zip") 
+                        span Download&nbsp;&nbsp;
+                        i(class="fa fa-file-archive-o" aria-hidden="true")
+                    a#button(href="/r/#{title}/history") 
+                        span History&nbsp;&nbsp;
+                        i(class="fa fa-history" aria-hidden="true")
+            h1 OPR#{title}
+            if days === 0
+                h2 #{date} @ #{time} (Today)
+            else
+                if days === 1
+                    h2 #{date} @ #{time} (Yesterday)
+                else
+                    h2 #{date} @ #{time} (#{days} days ago)
+            h2(style="font-style:italic;") #{recentUpload.message}
+            table(id="list-table")
+                tr
+                    th
+                        i(class="fa fa-file" aria-hidden="true")
+                    th(style="text-align:left;padding-left:1em;") Name
+                    th 
+                        i(class="fa fa-download" aria-hidden="true")
+                each f, i in recentUpload.files
+                    tr
+                        td
+                            a(href="/r/#{title}/#{recentUpload._id}/#{f.id}")
+                                i(class="fa fa-file#{f.type}-o" aria-hidden="true")
+                        td.file(style="padding-left:2em")
+                            a(href="/r/#{title}/#{recentUpload._id}/#{f.id}") #{f.name}
+                        td.file(style="text-align:center")
+                            a(download="#{f.name}", href="data:application/octet-stream;base64,#{f.data}")
+                                i(class="fa fa-download" aria-hidden="true")
+    #footer
+        span &copy; Copyright 2017 Team 2056 

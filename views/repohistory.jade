@@ -1,23 +1,65 @@
 extends layout
 
 block content
-  #contentWrapper
-    #content
-      #header
-        #header-column
-          a(href="/")
-            img(src="/images/logo.png")
-        #header-column
-          a#button(href="/r/#{title}") Back
-      h1 OPR#{title} History
-      table(id="list-table")
-        tr
-          th(style="text-align:left;padding-left:5%;") Date/Time
-          th(style="width:60%;text-align:left;padding-left:5%;") Message
-          th(style="text-align:left") User
-        each r, i in historyList
-          tr
-            td 
-              a(href="/r/#{title}/#{r._id}") #{r.date.d} @ #{r.date.t}
-            td #{r.message}
-            td #{r.user}
+    #contentWrapper
+        #content
+            #header
+                #header-column
+                    a(href="/")
+                        img(src="/images/logo.png")
+                #header-column
+                    a#button(href="/r/#{title}") 
+                        i(class="fa fa-chevron-left" aria-hidden="true")
+                        span &nbsp;&nbsp;&nbsp;&nbsp;Back
+            h1 OPR#{title} History
+            table(id="list-table")
+                tr
+                    th
+                        i(class="fa fa-folder-o" aria-hidden="true")
+                    th
+                        i(class="fa fa-calendar" aria-hidden="true")
+                        span  / 
+                        i(class="fa fa-clock-o" aria-hidden="true")
+                    th
+                        i(class="fa fa-comment-o" aria-hidden="true")
+                    th
+                        i(class="fa fa-user-circle-o" aria-hidden="true")
+                    if delaccess
+                        th
+                            i(class="fa fa-trash-o" aria-hidden="true")
+                each r, i in historyList
+                    tr(id="row-#{r._id}")
+                        td
+                            a(href="/r/#{title}/#{r._id}")
+                                i(id="folder-#{r._id}", class="fa fa-folder-o", aria-hidden="true")
+                        td #{r.date.d} @ #{r.date.t}
+                        td(style="text-align:left;") #{r.message}
+                        td #{r.user}
+                        if delaccess
+                            td
+                                a(id="delete-#{r._id}", href="javascript:void(0)")
+                                    i(class="fa fa-trash-o" aria-hidden="true")
+                                script.
+                                    $(document).ready(function(){
+                                        $("#folder-#{r._id}").hover(function(){
+                                            $(this).removeClass("fa-folder-o");
+                                            $(this).addClass("fa-folder-open-o");
+                                        }, function(){
+                                            $(this).removeClass("fa-folder-open-o");
+                                            $(this).addClass("fa-folder-o");
+                                        });
+                                        $("#delete-#{r._id}").click(function(){
+                                            var r = confirm("Are you sure you want to delete?\nThis cannot be undone!\nPress OK to delete or CANCEL to cancel delete");
+                                            if (r == true) {
+                                                var url = "/remove/#{title}/#{r._id}";
+                                                $.getJSON(url,function(data){
+                                                    $("#row-#{r._id}").css({"display":"none"});
+                                                    quickSnack("Deleted successfully");
+                                                });
+                                            }
+                                        });
+
+                                    })
+
+    #footer
+        span &copy; Copyright 2017 Team 2056 

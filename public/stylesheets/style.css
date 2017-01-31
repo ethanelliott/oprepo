@@ -1,170 +1,363 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,400italic,500,700,900,500italic,300italic,900italic,700italic,100italic);
-
 * {
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 html {
-  width:100%;
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  font: 14px 'Roboto', sans-serif;
-  width:100%;
-  height: 100%;
-  background-color: #2859a5;
+    font: 14px 'Roboto', sans-serif;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(40, 90, 164, 1);
 }
 
 a {
-  text-decoration: none;
-  color: #ffffff;
+    text-decoration: none;
+    color: #ffffff;
 }
 
+#snack-wrap {
+    visibility: hidden;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    z-index: 10000;
+    bottom: 0;
+    left: 0;
+}
+
+#snackbar {
+    background-color: #000000;
+    margin: auto;
+    color: #ffffff;
+    border-radius: 2px;
+    padding: 16px;
+    margin-bottom: 4vh;
+    font-size: 17px;
+    box-shadow: 0 0 10px 0 #000000;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
 
 #LoginWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width:100%;
-  height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 #LoginBlock {
-  margin:auto auto;
-  text-align: center;
-  width:300px;
+    margin: auto auto;
+    text-align: center;
+    width: 300px;
 }
+
 #login-form {
-  width:100%;
-}
-#login-form > input{
-  width:100%;
+    width: 100%;
 }
 
-input[type=text], input[type=password]   {
-  display: block;
-  font-size: 2vh;
-  width:100%;
-  color: #000000;
-  padding: 1vh 1vw;
-  border: 1px solid #888888;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  text-align: left;
+#login-form>input {
+    width: 100%;
 }
 
-input[type=submit] {
-  display: block;
-  font-size: 2vh;
-  width:100%;
-  padding: 1vh 1vw;
-  background-color: #000000;
-  color: white;
-  border: none;
-  cursor: pointer;
+::-webkit-scrollbar {
+    width: 1vw;
 }
 
-input[type=submit]:hover {
-  background-color: #666666;
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
+::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+#login-form input[type=text], #login-form input[type=password] {
+    display: block;
+    font-size: 2vh;
+    width: 100%;
+    color: #000000;
+    padding: 1vh 1vw;
+    border: 1px solid #888888;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    text-align: left;
+}
+
+#login-form input[type=submit] {
+    display: block;
+    font-size: 2vh;
+    width: 100%;
+    padding: 1vh 1vw;
+    background-color: #000000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#login-form input[type=submit]:hover {
+    background-color: #666666;
+}
 
 #contentWrapper {
-  display: flex;
-  justify-content: center;
-  width:100%;
-  height: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
+
 #content {
-  width:100%;
-  max-width: 1000px;
+    width: 100%;
+    max-width: 1000px;
 }
 
 #header {
-  width:100%;
-  display: flex;
-  justify-content: space-between;
-  color:#ffffff;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
 }
-#content  h1 {
-  color:#ffffff;
-  font-size: 30px;
+
+#content h1 {
+    color: #ffffff;
+    font-size: 30px;
 }
-#content  h2 {
-  color:#ffffff;
-  font-weight: 200;
-  line-height: 2em;
+
+#content h2 {
+    color: #ffffff;
+    font-weight: 300;
+    line-height: 2em;
 }
+
 #header-column {
-  flex:1;
+    flex: 1;
 }
+
 #button {
-  display: block;
-  font-size: 20px;
-  background-color: #000000;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  margin-left: 1vw;
-  float:right;
-  color:#ffffff;
-  text-align: center;
-  font-weight: 200;
-  padding: 1em;
+    display: block;
+    font-size: 20px;
+    background-color: #000000;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    margin-left: 1vw;
+    float: right;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 300;
+    padding: 1em;
 }
+
 #button:hover {
-  background-color: #333333;
+    background-color: #333333;
 }
 
 #list-table {
-  width:100%;
+    width: 100%;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 18px;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 18px;
 }
-table  a {
-  color:#000000;
+
+table a {
+    color: #000000;
 }
+
 table th {
-  font-size: 1.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid #ddd;
+    font-size: 1.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #ddd;
 }
+
 table td {
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-  font-size: 1em;
-  padding-top:0.5em;
-  padding-bottom:0.5em;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
+
 table td.file {
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  font-size: 1em;
-  padding-top:0.4em;
-  padding-bottom:0.4em;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
 }
+
 table tr:nth-child(even) {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
+
 table tr:nth-child(odd) {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
+
 table tr:hover {
-  background-color: #cccccc;
+    background-color: #cccccc;
 }
+
 table th {
-  background-color: #000000;
-  color: white;
-  text-align: center;
+    background-color: #000000;
+    color: white;
+    text-align: center;
 }
+
 #tableLink {
-  width:100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+#addnewuser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#addnewuser>* {
+    margin-left: 1vw;
+}
+
+#addnewuser input[type=text], #addnewuser input[type=password], #addnewuser select {
+    font-size: 2vh;
+    color: #000000;
+    padding: 1vh 1vw;
+    border: 1px solid #888888;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    text-align: left;
+}
+
+#addnewuser input[type=submit] {
+    font-size: 2vh;
+    background-color: #000000;
+    padding:1vh 1vw;
+    color: white;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+}
+
+#addnewuser input[type=submit]:hover {
+    background-color: #666666;
+}
+
+#edituser {
+    width:100%;
+    display: flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items: center;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#edituser > * {
+    margin-left: 1vw;
+}
+
+#edituser > label {
+  font-size: 2vh;
+  color:#ffffff;
+}
+
+#edituser input[type=text], #edituser input[type=password], #edituser select {
+    font-size: 2vh;
+    color: #000000;
+    padding: 1vh 1vw;
+    border: 1px solid #888888;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    text-align: left;
+}
+
+#edituser input[type=submit] {
+    font-size: 2vh;
+    background-color: #000000;
+    padding:1vh 1vw;
+    color: white;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+}
+
+#edituser input[type=submit]:hover {
+    background-color: #666666;
+}
+
+#footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 8vh;
+}
+
+#footer>span {
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: 200;
+    font-size: 16px;
 }

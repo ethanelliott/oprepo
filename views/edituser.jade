@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    #contentWrapper
+        #content
+            #header
+                #header-column
+                    a(href="/")
+                        img(src="/images/logo.png")
+                #header-column
+            h1 #{title}: #{user.username}
+            form(id="edituser", action="/editusersub", method="POST",autocomplete="off")
+                input(type="hidden", value="#{user._id}",name="uid")
+                label(for="username") Username:
+                input(type="text",value="#{user.username}",name="username")
+                label(for="ut") Type:
+                select(name="ut")
+                    if user.ut === 0
+                        option(value="0",selected) User
+                    else
+                        option(value="0") User
+                    if user.ut === 1
+                        option(value="1",selected) Super-User
+                    else
+                        option(value="1") Super-User
+                    if user.ut === 2
+                        option(value="2",selected) Admin
+                    else
+                        option(value="2") Admin
+                input(type="submit",value="Save User")
+            form(id="edituser", action="/forcepasswordchange", method="POST",autocomplete="off")
+                input(type="hidden",value="#{user._id}",name="uid")
+                input(type="submit",value="Force password change")
+    #footer
+        span &copy; Copyright 2017 Team 2056 

@@ -1,5 +1,21 @@
 ---
 engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: false
+    config:
+      languages:
+      - ruby
+      - javascript
+      - python
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  radon:
+    enabled: true
   rubocop:
     enabled: true
   duplication:
@@ -10,5 +26,13 @@ engines:
     enabled: true
 ratings:
   paths:
+  - "**.css"
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
   - "**.rb"
   - "**.md"

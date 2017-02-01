@@ -158,51 +158,7 @@ router.get('/r/:year', function (req, res, next)
 					{
 						var fTypeA = r.files[i].name.split(".");
 						var fType = fTypeA[fTypeA.length - 1];
-						switch (fType)
-						{
-						case 'txt':
-							r.files[i].type = "-text";
-							break;
-						case 'cpp':
-							r.files[i].type = "-code";
-							break;
-						case 'h':
-							r.files[i].type = "-code";
-							break;
-						case 'c':
-							r.files[i].type = "-code";
-							break;
-						case 'png':
-							r.files[i].type = "-image";
-							break;
-						case 'jpg':
-							r.files[i].type = "-image";
-							break;
-						case 'docx':
-							r.files[i].type = "-word";
-							break;
-						case 'doc':
-							r.files[i].type = "-word";
-							break;
-						case 'xlsx':
-							r.files[i].type = "-excel";
-							break;
-						case 'xls':
-							r.files[i].type = "-excel";
-							break;
-						case 'csv':
-							r.files[i].type = "-excel";
-							break;
-						case 'pdf':
-							r.files[i].type = "-pdf";
-							break;
-						case 'doc':
-							r.files[i].type = "-word";
-							break;
-						default:
-							r.files[i].type = "";
-							break;
-						}
+						r.files[i].type = fileType(fType);
 						zip.file(r.files[i].name, r.files[i].data,
 						{
 							base64: true
@@ -389,51 +345,7 @@ router.get('/r/:year/:uploadID', function (req, res, next)
 					{
 						var fTypeA = r.files[i].name.split(".");
 						var fType = fTypeA[fTypeA.length - 1];
-						switch (fType)
-						{
-						case 'txt':
-							r.files[i].type = "-text";
-							break;
-						case 'cpp':
-							r.files[i].type = "-code";
-							break;
-						case 'h':
-							r.files[i].type = "-code";
-							break;
-						case 'c':
-							r.files[i].type = "-code";
-							break;
-						case 'png':
-							r.files[i].type = "-image";
-							break;
-						case 'jpg':
-							r.files[i].type = "-image";
-							break;
-						case 'docx':
-							r.files[i].type = "-word";
-							break;
-						case 'doc':
-							r.files[i].type = "-word";
-							break;
-						case 'xlsx':
-							r.files[i].type = "-excel";
-							break;
-						case 'xls':
-							r.files[i].type = "-excel";
-							break;
-						case 'csv':
-							r.files[i].type = "-excel";
-							break;
-						case 'pdf':
-							r.files[i].type = "-pdf";
-							break;
-						case 'doc':
-							r.files[i].type = "-word";
-							break;
-						default:
-							r.files[i].type = "";
-							break;
-						}
+						r.files[i].type = fileType(fType);
 						zip.file(r.files[i].name, r.files[i].data,
 						{
 							base64: true
@@ -986,6 +898,54 @@ router.post('/add/new/user', function (req, res)
 	}
 
 });
+var fileType = function(ft)
+{
+	var r = "";
+	switch (fType)
+	{
+	case 'txt':
+		r = "-text";
+		break;
+	case 'cpp':
+		r = "-code";
+		break;
+	case 'h':
+		r = "-code";
+		break;
+	case 'c':
+		r = "-code";
+		break;
+	case 'png':
+		r = "-image";
+		break;
+	case 'jpg':
+		r = "-image";
+		break;
+	case 'docx':
+		r = "-word";
+		break;
+	case 'doc':
+		r = "-word";
+		break;
+	case 'xlsx':
+		r = "-excel";
+		break;
+	case 'xls':
+		r = "-excel";
+		break;
+	case 'csv':
+		r = "-excel";
+		break;
+	case 'pdf':
+		r = "-pdf";
+		break;
+	default:
+		r = "";
+		break;
+	}
+	return r;
+};
+
 var validateUser = function (req, res, callback_success, callback_fail)
 {
   var db = req.dbUser;

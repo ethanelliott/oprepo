@@ -184,9 +184,6 @@ a {
     line-height: 2em;
 }
 
-#header-column {
-    flex: 1;
-}
 
 #button {
     display: block;

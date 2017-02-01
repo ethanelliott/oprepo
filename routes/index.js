@@ -31,6 +31,7 @@ router.get('/', function (req, res, next)
     });
   });
 });
+
 router.get('/users', function (req, res, next)
 {
   validateUser(req, res, function ()
@@ -59,9 +60,37 @@ router.get('/users', function (req, res, next)
   });
 });
 
-router.get('/r', function (req, res, next)
+router.get('/log', function (req, res, next)
 {
-  res.redirect('/');
+  validateUser(req, res, function ()
+  {
+		if(adminPrivledge(req.session.user))
+		{
+			var db = req.dbLog;
+      var collection = db.get('actionlog');
+      collection.find(
+      {}).then(function (value)
+      {
+				for (i = 0; i < value.length; i++)
+				{
+					var dd = new Date(value[i].date);
+					value[i].date = dd.toDateString() + " " + dd.toLocaleTimeString();
+				}
+        res.render('log',
+        {
+          title: 'Log',
+					logs: value
+        });
+      });
+		}
+    else
+    {
+      res.redirect('/');
+    }
+  }, function ()
+  {
+    res.redirect('/');
+  });
 });
 
 router.post('/r/:year/:id/upload', function (req, res, next)
@@ -74,7 +103,7 @@ router.post('/r/:year/:id/upload', function (req, res, next)
   {
 		if(superPrivledge(req.session.user))
 		{
-			if (y.contains(parseInt(year)))
+			if (y.contains(parseInt(year, 10)))
 	    {
 	      var dbD = req.dbData;
 	      var col = "OPR" + year;
@@ -96,6 +125,9 @@ router.post('/r/:year/:id/upload', function (req, res, next)
 	        }
 	      }).then(function ()
 	      {
+					var td = new Date();
+					var me = "Uploaded file " + name;
+					logAction(req, res, td, "Upload", me, req.session.user.username);
 	        res.json(
 	        {
 	          "response": "OK",
@@ -139,7 +171,7 @@ router.get('/r/:year', function (req, res, next)
   var db = req.dbUser;
   var collection = db.get('user');
 	validateUser(req,res,function(){
-		if (y.contains(parseInt(year)))
+		if (y.contains(parseInt(year, 10)))
 		{
 			var dbD = req.dbData;
 			var col = "OPR" + year;
@@ -198,20 +230,12 @@ router.get('/r/:year', function (req, res, next)
 		res.redirect('/');
 	});
 });
-var daysBetween = function (date1, date2)
-{
-  var one_day = 1000 * 60 * 60 * 24;
-  var date1_ms = date1.getTime();
-  var date2_ms = date2.getTime();
-  var difference_ms = date2_ms - date1_ms;
-  return Math.round(difference_ms / one_day);
-};
 router.get('/r/:year/download', function (req, res, next)
 {
   var year = req.params.year;
   validateUser(req, res, function ()
   {
-    if (y.contains(parseInt(year)))
+    if (y.contains(parseInt(year, 10)))
     {
       var dbD = req.dbData;
       var col = "OPR" + year;
@@ -237,6 +261,9 @@ router.get('/r/:year/download', function (req, res, next)
             type: "base64"
           }).then(function (Zipbase64)
           {
+						var td = new Date();
+						var me = "Downloaded Zip of " + col;
+						logAction(req, res, td, "Zip Download", me, req.session.user.username);
             res.json(
             {
               'response': "OK",
@@ -278,7 +305,7 @@ router.get('/r/:year/history', function (req, res, next)
   var db = req.dbUser;
   var collection = db.get('user');
 	validateUser(req,res,function(){
-		if (y.contains(parseInt(year)))
+		if (y.contains(parseInt(year, 10)))
 		{
 			var dbD = req.dbData;
 			var col = "OPR" + year;
@@ -326,7 +353,7 @@ router.get('/r/:year/:uploadID', function (req, res, next)
   var db = req.dbUser;
   var collection = db.get('user');
 	validateUser(req,res,function(){
-		if (y.contains(parseInt(year)))
+		if (y.contains(parseInt(year, 10)))
 		{
 			var dbD = req.dbData;
 			var col = "OPR" + year;
@@ -389,7 +416,7 @@ router.get('/r/:year/:uploadID/:fileID', function (req, res, next)
   var db = req.dbUser;
   var collection = db.get('user');
 	validateUser(req,res,function(){
-		if (y.contains(parseInt(year)))
+		if (y.contains(parseInt(year, 10)))
 		{
 			var dbD = req.dbData;
 			var col = "OPR" + year;
@@ -455,7 +482,7 @@ router.post('/r/:year/new', function (req, res)
 	validateUser(req,res,function(){
 		if (superPrivledge(req.session.user))
 		{
-			if (y.contains(parseInt(year)))
+			if (y.contains(parseInt(year, 10)))
 			{
 				var dbD = req.dbData;
 				var col = "OPR" + year;
@@ -468,6 +495,9 @@ router.post('/r/:year/new', function (req, res)
 				};
 				yearData.insert(newRepoFormat, function (err, d)
 				{
+					var td = new Date();
+					var me = "New Commit to " + col + ": " + d._id;
+					logAction(req, res, td, "New Commit", me, req.session.user.username);
 					res.json(
 					{
 						"response": "OK",
@@ -513,7 +543,7 @@ router.get('/remove/:year/:id', function (req, res, next)
 	validateUser(req,res,function(){
 		if (superPrivledge(req.session.user))
 		{
-			if (y.contains(parseInt(year)))
+			if (y.contains(parseInt(year, 10)))
 			{
 				var dbD = req.dbData;
 				var col = "OPR" + year;
@@ -523,6 +553,9 @@ router.get('/remove/:year/:id', function (req, res, next)
 					_id: repID
 				}).then(function ()
 				{
+					var td = new Date();
+					var me = "Deleted commit from " + col + ": " + repID;
+					logAction(req, res, td, "Delete Commit", me, req.session.user.username);
 					res.json(
 					{
 						"response": "OK",
@@ -579,14 +612,29 @@ router.post('/ulogin', function (req, res)
         else
         {
           req.session.user = value[0];
-					if (parseInt(req.session.user.ut) === 2)
+					if (req.session.user.ut)
 					{
-						req.session.user.admin = true;
+						if (parseInt(req.session.user.ut, 10) === 2)
+						{
+							req.session.user.admin = true;
+						}
+						else
+						{
+							req.session.user.admin = false;
+						}
 					}
 					else
 					{
-						req.session.user.admin = false;
+						if (req.session.user.username === "admin")
+						{
+							req.session.user.admin = true;
+						}
+						else
+						{
+							req.session.user.admin = false;
+						}
 					}
+
           req.session.user.password = "";
           res.redirect("/");
         }
@@ -701,7 +749,7 @@ router.post('/editusersub', function (req, res, next)
   var collection = db.get('user');
 	var uid = req.body.uid;
 	var username = req.body.username;
-	var ut = parseInt(req.body.ut);
+	var ut = parseInt(req.body.ut, 10);
 	validateUser(req,res,function(){
 		if(adminPrivledge(req.session.user))
 		{
@@ -840,6 +888,9 @@ router.get('/removeuser/:uid', function (req, res, next)
 					_id: user
 				}).then(function ()
 				{
+					var td = new Date();
+					var me = "Deleted user: " + value[0].username;
+					logAction(req, res, td, "Deleted user", me, req.session.user.username);
 					res.redirect("/users");
 				});
 			}
@@ -859,7 +910,7 @@ router.post('/add/new/user', function (req, res)
   var collection = db.get('user');
   var uName = req.body.username;
   var uPass = req.body.password;
-	var ut = parseInt(req.body.ut);
+	var ut = parseInt(req.body.ut, 10);
 	if (adminPrivledge(req.session.user))
 	{
 		collection.find(
@@ -875,15 +926,18 @@ router.post('/add/new/user', function (req, res)
 	    {
 	      if (uName.length > 0 && uPass.length > 0)
 	      {
-
 	        var userData = {
 	          'username': uName,
 	          'password': saltAndHash(uPass),
 						'ut':ut,
 	          'npc': true
 	        };
-	        collection.insert(userData);
-	        res.redirect("/users");
+	        collection.insert(userData, function(){
+						var td = new Date();
+						var me = "New user: " + userData.username;
+						logAction(req, res, td, "New user", me, req.session.user.username);
+						res.redirect("/users");
+					});
 	      }
 	      else
 	      {
@@ -901,49 +955,38 @@ router.post('/add/new/user', function (req, res)
 var fileType = function(ft)
 {
 	var r = "";
-	switch (fType)
+	var types = {
+		'txt':"-text",
+		'cpp':"-code",
+		'h':"-code",
+		'c':"-code",
+		'png':"-image",
+		'jpg':"-image",
+		'docx':"-word",
+		'doc':"-word",
+		'xlsx':"-excel",
+		'xls':"-excel",
+		'csv':"-excel",
+		'pdf':"-pdf"
+	};
+	if (types[ft])
 	{
-	case 'txt':
-		r = "-text";
-		break;
-	case 'cpp':
-		r = "-code";
-		break;
-	case 'h':
-		r = "-code";
-		break;
-	case 'c':
-		r = "-code";
-		break;
-	case 'png':
-		r = "-image";
-		break;
-	case 'jpg':
-		r = "-image";
-		break;
-	case 'docx':
-		r = "-word";
-		break;
-	case 'doc':
-		r = "-word";
-		break;
-	case 'xlsx':
-		r = "-excel";
-		break;
-	case 'xls':
-		r = "-excel";
-		break;
-	case 'csv':
-		r = "-excel";
-		break;
-	case 'pdf':
-		r = "-pdf";
-		break;
-	default:
-		r = "";
-		break;
+		return types[ft];
+	}
+	else
+	{
+		return "";
 	}
 	return r;
+};
+
+var daysBetween = function (date1, date2)
+{
+  var one_day = 1000 * 60 * 60 * 24;
+  var date1_ms = date1.getTime();
+  var date2_ms = date2.getTime();
+  var difference_ms = date2_ms - date1_ms;
+  return Math.round(difference_ms / one_day);
 };
 
 var validateUser = function (req, res, callback_success, callback_fail)
@@ -1008,6 +1051,21 @@ var superPrivledge = function(user)
 		return false;
 	}
 
+};
+
+var logAction = function(req, res, _date, _action, _message, _user)
+{
+	var db = req.dbLog;
+  var c = db.get('actionlog');
+	var a = {
+		"date": _date,
+		"action": _action,
+		"message": _message,
+		"user": _user
+	};
+	c.insert(a, function(err, d){
+		console.log(err);
+	});
 };
 
 function sortDates(arr)

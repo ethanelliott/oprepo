@@ -8,9 +8,9 @@ block content
                     a(href="/")
                         img(src="/images/logo.png")
                 #header-column
-                    a#button(href="/logout")
-                        span Logout&nbsp;&nbsp;
-                        i(class="fa fa-sign-out" aria-hidden="true")
+                    a#button(href="/r/#{title}") 
+                        i(class="fa fa-chevron-left" aria-hidden="true")
+                        span &nbsp;&nbsp;&nbsp;&nbsp;Back
             form(autocomplete="off",id="addnewuser",action="/add/new/user", method="POST")
                 input(type="text",placeholder="username",name="username")
                 input(type="text",placeholder="password",name="password")

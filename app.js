@@ -10,6 +10,7 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var dbUser = monk('localhost:27017/opruser');
 var dbData = monk('localhost:27017/oprdata');
+var dbLog = monk('localhost:27017/oprlog');
 
 var index = require('./routes/index');
 
@@ -25,6 +26,7 @@ app.use(bodyParser.json(
 {
   limit: '50mb'
 }));
+
 app.use(bodyParser.urlencoded(
 {
   limit: '50mb',
@@ -46,6 +48,7 @@ app.use(function (req, res, next)
 {
   req.dbUser = dbUser;
   req.dbData = dbData;
+  req.dbLog = dbLog;
   next();
 });
 

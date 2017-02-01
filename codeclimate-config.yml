@@ -9,12 +9,11 @@ index e69de29..8b9532d 100644
 +    enabled: true
 +  duplication:
 +    enabled: false
-+    config:
-+      languages:
-+      - ruby
-+      - javascript
-+      - python
-+      - php
++    checks:
++        Identical code:
++            enabled: false
++        Similar code:
++            enabled: false
 +  eslint:
 +    enabled: true
 +  fixme:

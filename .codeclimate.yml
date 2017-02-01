@@ -7,6 +7,13 @@ index e69de29..8b9532d 100644
 +engines:
 +  csslint:
 +    enabled: true
++  duplication:
++    enabled: false
++    checks:
++        Identical code:
++            enabled: false
++        Similar code:
++            enabled: false
 +  eslint:
 +    enabled: true
 +  fixme:

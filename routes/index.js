@@ -274,7 +274,7 @@ router.get('/r/:year/download', function (req, res, next)
               {
                 'name': fname,
                 'data': Zipbase64
-              },
+              }
             });
           });
         }
@@ -501,7 +501,7 @@ router.post('/r/:year/new', function (req, res)
 					res.json(
 					{
 						"response": "OK",
-						"error": "",
+						"error": err,
 						"newid": d._id
 					});
 				});
@@ -604,7 +604,7 @@ router.post('/ulogin', function (req, res)
     {
       if (validatePassword(uPass, value[0].password))
       {
-        if (value[0].npc)
+        if (value[0].npc === undefined || value[0].npc)
         {
           var newst = "/updatepassword/" + value[0]._id.toString() + "/" + hash(value[0]._id.toString()) + "/" + saltAndHash(value[0]._id.toString());
           res.redirect(newst);
@@ -634,7 +634,6 @@ router.post('/ulogin', function (req, res)
 							req.session.user.admin = false;
 						}
 					}
-
           req.session.user.password = "";
           res.redirect("/");
         }
@@ -810,6 +809,65 @@ router.post('/forcepasswordchange', function (req, res, next)
 		}
 	},function(){
 		res.redirect("/");
+	});
+});
+
+router.post('/newclientupload', function (req, res)
+{
+	var dbD = req.dbData;
+	var cd = dbD.get("client");
+	var d = req.body.data;
+	cd.insert({
+		"q":"client",
+		"data": ""
+	},function(){
+		cd.update(
+			{"q":"client"},
+			{
+				"q":"client",
+				"data": d,
+			}
+		).then(function(){
+			res.json({"response":"OK"});
+		});
+	});
+});
+router.post('/newclientinstaller', function (req, res)
+{
+	var dbD = req.dbData;
+	var cd = dbD.get("installer");
+	var d = req.body.data;
+	cd.insert({
+		"q":"installer",
+		"data": ""
+	},function(){
+		cd.update(
+			{"q":"installer"},
+			{
+				"q":"installer",
+				"data": d,
+			}
+		).then(function(){
+			res.json({"response":"OK"});
+		});
+	});
+});
+router.get('/downloadclient', function (req, res)
+{
+	var dbD = req.dbData;
+	var cd = dbD.get("client");
+	cd.find({}).then(function(value){
+		value = value[0];
+		res.json({"response":"OK","data":value.data});
+	});
+});
+router.get('/downloadupdate', function (req, res)
+{
+	var dbD = req.dbData;
+	var cd = dbD.get("installer");
+	cd.find({}).then(function(value){
+		value = value[0];
+		res.json({"response":"OK","data":value.data});
 	});
 });
 

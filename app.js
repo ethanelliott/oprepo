@@ -24,12 +24,12 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json(
 {
-  limit: '50mb'
+  limit: '512mb'
 }));
 
 app.use(bodyParser.urlencoded(
 {
-  limit: '50mb',
+  limit: '512mb',
   extended: true
 }));
 app.use(cookieParser());
@@ -40,7 +40,7 @@ app.use(session(
   cookieName: 'session',
   secret: '20F99CD92BF5812C37588975E695C244523H3FAA210D82188276BE1464812223EF80D63A7E1C9F69A3C7FD7F782566C',
   duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000
 }));
 
 // Make our db accessible to our router
